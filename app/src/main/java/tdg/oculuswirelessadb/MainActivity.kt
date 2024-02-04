@@ -54,9 +54,11 @@ class MainActivity : AppCompatActivity() {
         for (permission in listOf(Manifest.permission.WRITE_SECURE_SETTINGS, Manifest.permission.READ_LOGS)) {
             if (applicationContext.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 runOnUiThread {
-                    showDialog("Permission required", "The ${permission.split('.').last()} permission is required in order to properly enable wireless ADB - " +
+                    showDialog(
+                        "Permission required", "The ${permission.split('.').last()} permission is required in order to properly enable wireless ADB - " +
                             "run the following adb command from a computer to enable it:\n\n" +
-                            "adb shell pm grant ${applicationContext.packageName} $permission", true)
+                            "adb shell pm grant ${applicationContext.packageName} $permission", true
+                    )
                 }
             }
         }
@@ -252,7 +254,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setCancelable(false)
-        builder.setPositiveButton(android.R.string.yes) { _, _ -> if (shouldFinish) finish() }
+        builder.setPositiveButton(android.R.string.ok) { _, _ -> if (shouldFinish) finish() }
         builder.show()
     }
 
@@ -261,12 +263,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showToast(text: String) {
-        val toast: Toast = Toast.makeText(this, text, Toast.LENGTH_LONG)
-        if (toast.view != null) {
-            val v = toast.view!!.findViewById<View>(android.R.id.message) as TextView
-            v.setTextColor(Color.BLACK) // workaround for dark mode bug
-        }
-        toast.show()
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
     private fun getLanIp(): String? {
